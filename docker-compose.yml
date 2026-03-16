@@ -2,15 +2,16 @@ services:
   postgres:
     image: pgvector/pgvector:pg17
     environment:
-      POSTGRES_USER: ENV_POSTGRES_USER
-      POSTGRES_PASSWORD: ENV_POSTGRES_PASSW
+      POSTGRES_USER: ${ENV_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${ENV_POSTGRES_PASSW}
+      POSTGRES_DB: ${ENV_DATABASE_NAME}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker-config/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker-config/database/init.sql:/docker-entrypoint-initdb.d/
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U root -d spring"]
+      test: ["CMD-SHELL", "pg_isready -U ${ENV_POSTGRES_USER} -d ${ENV_DATABASE_NAME}"]
       interval: 10s
       timeout: 10s
       retries: 3
