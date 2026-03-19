@@ -2,7 +2,7 @@ CREATE TYPE order_status AS ENUM ('WAITING', 'IN_PREPARATION', 'DONE', 'DELIVERE
 
 CREATE TYPE payment_method AS ENUM ('CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'ONLINE', 'TRANSFER');
 
-CREATE TABLE tables
+CREATE TABLE restaurant_tables
 (
     id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     table_number SMALLINT NOT NULL UNIQUE CHECK (table_number > 0),
@@ -12,13 +12,13 @@ CREATE TABLE tables
 
 CREATE TABLE orders
 (
-    id          UUID PRIMARY KEY         DEFAULT gen_random_uuid(),
-    table_id    UUID           REFERENCES tables (id) ON DELETE SET NULL,
-    employee_id UUID           REFERENCES employees (id) ON DELETE SET NULL,
-    status      order_status   NOT NULL  DEFAULT 'WAITING',
-    tip         NUMERIC(10, 2) NOT NULL  DEFAULT 0 CHECK (tip >= 0),
-    created_at  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    closed_at   TIMESTAMP WITH TIME ZONE
+    id                   UUID PRIMARY KEY         DEFAULT gen_random_uuid(),
+    restaurant_tables_id UUID           REFERENCES restaurant_tables (id) ON DELETE SET NULL,
+    employee_id          UUID           REFERENCES employees (id) ON DELETE SET NULL,
+    status               order_status   NOT NULL  DEFAULT 'WAITING',
+    tip                  NUMERIC(10, 2) NOT NULL  DEFAULT 0 CHECK (tip >= 0),
+    created_at           TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    closed_at            TIMESTAMP WITH TIME ZONE
 
 );
 
