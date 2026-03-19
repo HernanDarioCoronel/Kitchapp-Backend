@@ -1,6 +1,9 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -8,6 +11,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "purchase_order_line", schema = "public")
 public class PurchaseOrderLine {
@@ -43,69 +49,4 @@ public class PurchaseOrderLine {
     @ColumnDefault("(quantity * unit_price)")
     @Column(name = "line_subtotal", precision = 12, scale = 2)
     private BigDecimal lineSubtotal;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public PurchaseOrder getOrder() {
-        return order;
-    }
-
-    public void setOrder(PurchaseOrder order) {
-        this.order = order;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Tax getTax() {
-        return tax;
-    }
-
-    public void setTax(Tax tax) {
-        this.tax = tax;
-    }
-
-    public BigDecimal getLineSubtotal() {
-        return lineSubtotal;
-    }
-
-    public void setLineSubtotal(BigDecimal lineSubtotal) {
-        this.lineSubtotal = lineSubtotal;
-    }
-
 }

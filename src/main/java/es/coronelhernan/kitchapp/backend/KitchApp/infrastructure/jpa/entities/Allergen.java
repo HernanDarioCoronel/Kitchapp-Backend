@@ -1,9 +1,15 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "allergens", schema = "public", uniqueConstraints = {@UniqueConstraint(name = "allergens_name_key",
         columnNames = {"name"})})
@@ -18,29 +24,4 @@ public class Allergen {
 
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
 }

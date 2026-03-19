@@ -68,6 +68,12 @@
             <version>5.1.0</version>
             <scope>compile</scope>
         </dependency>
+
+        <!-- Others -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

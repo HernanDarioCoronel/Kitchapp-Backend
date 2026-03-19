@@ -1,12 +1,18 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "ingredients", schema = "public", uniqueConstraints = {
         @UniqueConstraint(name = "ingredients_sku_key",
@@ -32,45 +38,4 @@ public class Ingredient {
 
     @Column(name = "calories_per_100g", precision = 5, scale = 2)
     private BigDecimal caloriesPer100g;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public BigDecimal getCaloriesPer100g() {
-        return caloriesPer100g;
-    }
-
-    public void setCaloriesPer100g(BigDecimal caloriesPer100g) {
-        this.caloriesPer100g = caloriesPer100g;
-    }
-
 }

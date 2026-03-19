@@ -1,11 +1,18 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.ReservationStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "reservations", schema = "public")
 public class Reservation {
@@ -38,74 +45,4 @@ public class Reservation {
     @Column(name = "notes", length = Integer.MAX_VALUE)
     private String notes;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
-    }
-
-    public Short getNumGuests() {
-        return numGuests;
-    }
-
-    public void setNumGuests(Short numGuests) {
-        this.numGuests = numGuests;
-    }
-
-    public OffsetDateTime getReservationDate() {
-        return reservationDate;
-    }
-
-    public void setReservationDate(OffsetDateTime reservationDate) {
-        this.reservationDate = reservationDate;
-    }
-
-    public RestaurantTable getRestaurantTables() {
-        return restaurantTables;
-    }
-
-    public void setRestaurantTables(RestaurantTable restaurantTables) {
-        this.restaurantTables = restaurantTables;
-    }
-
-    public ReservationStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public enum ReservationStatus {
-        CONFIRMED,
-        PENDING,
-        CANCELLED,
-        ARRIVED
-    }
 }

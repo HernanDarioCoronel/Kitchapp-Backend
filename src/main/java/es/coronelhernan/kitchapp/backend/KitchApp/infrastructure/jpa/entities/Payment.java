@@ -1,6 +1,10 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.PaymentMethod;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -9,6 +13,9 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "payments", schema = "public")
 public class Payment {
@@ -36,59 +43,4 @@ public class Payment {
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public PaymentMethod getMethod() {
-        return method;
-    }
-
-    public void setMethod(PaymentMethod method) {
-        this.method = method;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public enum PaymentMethod {
-        CASH,
-        CREDIT_CARD,
-        DEBIT_CARD,
-        ONLINE,
-        TRANSFER
-    }
 }

@@ -1,9 +1,15 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "unit_types", schema = "public", uniqueConstraints = {
         @UniqueConstraint(name = "unit_types_name_key",
@@ -21,29 +27,5 @@ public class UnitType {
 
     @Column(name = "abbreviation", nullable = false, length = 10)
     private String abbreviation;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
-
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
-    }
 
 }

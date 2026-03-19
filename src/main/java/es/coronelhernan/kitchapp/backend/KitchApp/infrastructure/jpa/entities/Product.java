@@ -1,6 +1,10 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.ProductType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -9,6 +13,9 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Setter
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "products", schema = "public", uniqueConstraints = {
         @UniqueConstraint(name = "products_sku_key",
@@ -53,80 +60,4 @@ public class Product {
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ProductType getType() {
-        return type;
-    }
-
-    public void setType(ProductType type) {
-        this.type = type;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public UnitType getUnitType() {
-        return unitType;
-    }
-
-    public void setUnitType(UnitType unitType) {
-        this.unitType = unitType;
-    }
-
-    public BigDecimal getCaloriesPer100g() {
-        return caloriesPer100g;
-    }
-
-    public void setCaloriesPer100g(BigDecimal caloriesPer100g) {
-        this.caloriesPer100g = caloriesPer100g;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(OffsetDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public enum ProductType{
-        INGREDIENT,
-        PRODUCT
-    }
 }
