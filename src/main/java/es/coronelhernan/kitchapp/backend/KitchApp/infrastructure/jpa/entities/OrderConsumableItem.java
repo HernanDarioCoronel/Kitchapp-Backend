@@ -16,8 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "order_product", schema = "public")
-public class OrderProduct {
+@Table(name = "order_consumable_item", schema = "public")
+public class OrderConsumableItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
