@@ -2,6 +2,7 @@ package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.CategoryType;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "categories", schema = "public", uniqueConstraints = {@UniqueConstraint(name = "categories_name_key",
         columnNames = {"name"})})
@@ -20,6 +22,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(name = "name", nullable = false, length = 100)

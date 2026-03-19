@@ -2,6 +2,7 @@ package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OrderStatus;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,13 +17,14 @@ import java.util.UUID;
 @Setter
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "orders", schema = "public")
 public class Order {
-    //region Getter&Setters
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,6 +52,4 @@ public class Order {
 
     @Column(name = "closed_at")
     private OffsetDateTime closedAt;
-
-    //endregion
 }

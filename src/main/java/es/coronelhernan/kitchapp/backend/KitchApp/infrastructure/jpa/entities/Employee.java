@@ -2,6 +2,7 @@ package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.EmployeeRole;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,12 +14,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "employees", schema = "public")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(name = "full_name", nullable = false, length = 200)

@@ -2,6 +2,7 @@ package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.ProductType;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "products", schema = "public", uniqueConstraints = {
         @UniqueConstraint(name = "products_sku_key",
@@ -26,6 +28,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(name = "sku", length = 50)

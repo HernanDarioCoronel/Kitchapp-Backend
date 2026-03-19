@@ -3,6 +3,7 @@ package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.DeliveryDays;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.SupplierType;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,12 +14,14 @@ import java.util.UUID;
 @Setter
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "suppliers", schema = "public")
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @Column(name = "nif", nullable = false, length = 9)
