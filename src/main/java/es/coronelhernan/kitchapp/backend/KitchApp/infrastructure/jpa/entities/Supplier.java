@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -44,7 +46,8 @@ public class Supplier {
     @ColumnDefault("'{VAR}'")
     @Enumerated(EnumType.STRING)
     @Column(name = "days", columnDefinition = "delivery_days[]")
-    private DeliveryDays days;
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    private DeliveryDays[] days;
 
     @Column(name = "email", length = 100)
     private String email;
@@ -56,6 +59,7 @@ public class Supplier {
     private String phone2;
 
     @Column(name = "iban", length = 22)
+    @JdbcTypeCode(SqlTypes.CHAR)
     private String iban;
 
     @Column(name = "rgseaa_number", length = Integer.MAX_VALUE)
