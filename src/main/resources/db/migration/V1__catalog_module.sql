@@ -35,7 +35,7 @@ CREATE TABLE taxes
     id    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name  varchar(20)   NOT NULL,
     value NUMERIC(2, 3) NOT NULL
-)
+);
 
 CREATE TABLE ingredients
 (
@@ -43,7 +43,7 @@ CREATE TABLE ingredients
     sku               VARCHAR(50) UNIQUE,
     name              VARCHAR(100) NOT NULL UNIQUE,
     category_id       UUID         REFERENCES categories (id) ON DELETE SET NULL,
-    calories_per_100g NUMERIC(5, 2) CHECK (calories_per_100g > 0),
+    calories_per_100g NUMERIC(5, 2) CHECK (calories_per_100g > 0)
 );
 
 CREATE TABLE products
@@ -56,7 +56,7 @@ CREATE TABLE products
     unit_type_id      UUID         NOT NULL REFERENCES unit_types (id) ON DELETE RESTRICT,
     calories_per_100g NUMERIC(5, 2) CHECK (calories_per_100g > 0),
     is_active         BOOLEAN                  DEFAULT true,
-    created_at        TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_at        TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE dishes
@@ -86,4 +86,4 @@ CREATE TABLE dish_ingredients
     quantity    NUMERIC(10, 3) NOT NULL CHECK (quantity > 0),
     is_optional BOOLEAN DEFAULT false,
     PRIMARY KEY (dish_id, product_id)
-)
+);
