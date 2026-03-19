@@ -39,7 +39,7 @@ CREATE TABLE taxes
 
 CREATE TABLE ingredients
 (
-    id                UUID PRIMARY KEY         DEFAULT gen_random_uuid(),
+    id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     sku               VARCHAR(50) UNIQUE,
     name              VARCHAR(100) NOT NULL UNIQUE,
     category_id       UUID         REFERENCES categories (id) ON DELETE SET NULL,
@@ -74,16 +74,16 @@ CREATE TABLE dishes
 
 CREATE TABLE product_allergens
 (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     product_id  UUID NOT NULL REFERENCES products (id) ON DELETE CASCADE,
-    allergen_id UUID NOT NULL REFERENCES allergens (id) ON DELETE CASCADE,
-    PRIMARY KEY (product_id, allergen_id)
+    allergen_id UUID NOT NULL REFERENCES allergens (id) ON DELETE CASCADE
 );
 
 CREATE TABLE dish_ingredients
 (
+    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     dish_id     UUID           NOT NULL REFERENCES dishes (id) ON DELETE CASCADE,
     product_id  UUID           NOT NULL REFERENCES products (id) ON DELETE RESTRICT,
     quantity    NUMERIC(10, 3) NOT NULL CHECK (quantity > 0),
-    is_optional BOOLEAN DEFAULT false,
-    PRIMARY KEY (dish_id, product_id)
+    is_optional BOOLEAN          DEFAULT false
 );
