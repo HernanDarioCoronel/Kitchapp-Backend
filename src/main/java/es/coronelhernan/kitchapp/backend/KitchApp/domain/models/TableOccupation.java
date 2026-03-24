@@ -1,0 +1,39 @@
+package es.coronelhernan.kitchapp.backend.KitchApp.domain.models;
+
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OccupationStatus;
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OrderStatus;
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.exceptions.AlreadyClosedException;
+import lombok.*;
+
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
+@Getter
+@Builder(toBuilder = true)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class TableOccupation {
+    private UUID id;
+    private RestaurantTable table;
+    private OffsetDateTime startedAt;
+    private OffsetDateTime endedAt;
+    private OccupationStatus status;
+
+    public static TableOccupation start(RestaurantTable rt) {
+        return TableOccupation.builder()
+                .id(UUID.randomUUID())
+                .table(rt)
+                .startedAt(OffsetDateTime.now())
+                .status(OccupationStatus.OPEN)
+                .build();
+    }
+
+    public void close() throws AlreadyClosedException {
+        if (this.endedAt != null){
+            throw new AlreadyClosedException();
+        }
+        this.endedAt = OffsetDateTime.now();
+        this.status = OccupationStatus.CLOSED;
+    }
+}
+

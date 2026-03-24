@@ -1,5 +1,6 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.EmployeeRole;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,30 +8,35 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "restaurant_tables", schema = "public", uniqueConstraints = {@UniqueConstraint(name = "restaurant_tables_table_number_key",
-        columnNames = {"table_number"})})
-public class RestaurantTable {
+@Table(name = "employees", schema = "public")
+public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     @EqualsAndHashCode.Include
     private UUID id;
 
-    @Column(name = "table_number", nullable = false)
-    private Short tableNumber;
+    @Column(name = "full_name", nullable = false, length = 200)
+    private String fullName;
 
-    @Column(name = "capacity")
-    private Short capacity;
+    @ColumnDefault("'WAITER'")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", columnDefinition = "employee_role not null")
+    private EmployeeRole role;
 
     @ColumnDefault("true")
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created_at")
+    private OffsetDateTime createdAt;
 }

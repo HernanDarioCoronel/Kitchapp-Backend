@@ -20,7 +20,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "orders", schema = "public")
-public class Order {
+public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -29,13 +29,13 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "restaurant_tables_id")
-    private RestaurantTable restaurantTables;
+    @JoinColumn(name = "table_occupation_id")
+    private TableOccupationEntity tableOccupation;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private EmployeeEntity employee;
 
     @ColumnDefault("'WAITING'")
     @Enumerated(EnumType.STRING)

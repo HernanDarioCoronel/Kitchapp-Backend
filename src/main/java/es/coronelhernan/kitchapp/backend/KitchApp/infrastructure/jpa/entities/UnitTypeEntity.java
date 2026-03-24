@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Setter
@@ -14,18 +13,22 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "taxes", schema = "public")
-public class Tax {
+@Table(name = "unit_types", schema = "public", uniqueConstraints = {
+        @UniqueConstraint(name = "unit_types_name_key",
+                columnNames = {"name"}),
+        @UniqueConstraint(name = "unit_types_abbreviation_key",
+                columnNames = {"abbreviation"})})
+public class UnitTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     @EqualsAndHashCode.Include
     private UUID id;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "value", nullable = false, precision = 2, scale = 3)
-    private BigDecimal value;
+    @Column(name = "abbreviation", nullable = false, length = 10)
+    private String abbreviation;
 
 }

@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "allergens", schema = "public", uniqueConstraints = {@UniqueConstraint(name = "allergens_name_key",
         columnNames = {"name"})})
-public class Allergen {
+public class AllergenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

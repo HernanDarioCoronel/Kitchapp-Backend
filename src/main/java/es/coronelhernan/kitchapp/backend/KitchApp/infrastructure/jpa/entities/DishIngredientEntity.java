@@ -5,18 +5,20 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "product_allergens", schema = "public")
-public class ProductAllergen {
+@Table(name = "dish_ingredients", schema = "public")
+public class DishIngredientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -25,12 +27,18 @@ public class ProductAllergen {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @JoinColumn(name = "dish_id", nullable = false)
+    private DishEntity dish;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "allergen_id", nullable = false)
-    private Allergen allergen;
+    @OnDelete(action = OnDeleteAction.RESTRICT)
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductEntity product;
 
+    @Column(name = "quantity", nullable = false, precision = 10, scale = 3)
+    private BigDecimal quantity;
+
+    @ColumnDefault("false")
+    @Column(name = "is_optional")
+    private Boolean isOptional;
 }

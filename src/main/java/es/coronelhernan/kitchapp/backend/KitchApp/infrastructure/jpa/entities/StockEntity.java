@@ -19,7 +19,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "stock", schema = "public")
-public class Stock {
+public class StockEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -29,7 +29,7 @@ public class Stock {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductEntity product;
 
     @ColumnDefault("0")
     @Column(name = "current_qty", precision = 12, scale = 3)

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Order {
     @EqualsAndHashCode.Include
     private UUID id;
-    private RestaurantTable restaurantTables;
+    private TableOccupation tableOccupation;
     private Employee employee;
     private OrderStatus status;
     private BigDecimal tip;
@@ -23,4 +23,22 @@ public class Order {
     private OffsetDateTime closedAt;
     private Set<OrderDish> orderDishes;
     private Set<OrderConsumableItem> orderConsumableItems;
+
+    public static Order create(TableOccupation tableOccupation, Employee employee, Set<OrderDish> orderDishSet, Set<OrderConsumableItem> orderConsumableItems) {
+        return Order.builder()
+                .id(UUID.randomUUID())
+                .tableOccupation(tableOccupation)
+                .employee(employee)
+                .status(OrderStatus.IN_PREPARATION)
+                .createdAt(OffsetDateTime.now())
+                .orderDishes(orderDishSet)
+                .orderConsumableItems(orderConsumableItems)
+                .build();
+    }
+
+    public void close(BigDecimal tip) {
+        this.status = OrderStatus.DONE;
+        this.tip = tip;
+        this.closedAt = OffsetDateTime.now();
+    }
 }

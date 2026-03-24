@@ -24,7 +24,7 @@ import java.util.UUID;
                 columnNames = {"sku"}),
         @UniqueConstraint(name = "products_name_key",
                 columnNames = {"name"})})
-public class Product {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -45,12 +45,12 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "category_id")
-    private Category category;
+    private CategoryEntity category;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.RESTRICT)
     @JoinColumn(name = "unit_type_id", nullable = false)
-    private UnitType unitType;
+    private UnitTypeEntity unitType;
 
     @Column(name = "calories_per_100g", precision = 5, scale = 2)
     private BigDecimal caloriesPer100g;

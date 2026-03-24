@@ -18,7 +18,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "purchase_order_line", schema = "public")
-public class PurchaseOrderLine {
+public class PurchaseOrderLineEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -28,12 +28,12 @@ public class PurchaseOrderLine {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "order_id", nullable = false)
-    private PurchaseOrder order;
+    private PurchaseOrderEntity order;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private ProductEntity product;
 
     @Column(name = "description", nullable = false, length = Integer.MAX_VALUE)
     private String description;
@@ -47,7 +47,7 @@ public class PurchaseOrderLine {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "tax_id", nullable = false)
-    private Tax tax;
+    private TaxEntity tax;
 
     @ColumnDefault("(quantity * unit_price)")
     @Column(name = "line_subtotal", precision = 12, scale = 2)

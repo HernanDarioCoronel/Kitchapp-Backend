@@ -1,13 +1,15 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
-import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.CategoryType;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -16,9 +18,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "categories", schema = "public", uniqueConstraints = {@UniqueConstraint(name = "categories_name_key",
+@Table(name = "dishes", schema = "public", uniqueConstraints = {@UniqueConstraint(name = "dishes_name_key",
         columnNames = {"name"})})
-public class Category {
+public class DishEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -31,14 +33,23 @@ public class Category {
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
-    @ColumnDefault("'INGREDIENT'")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", columnDefinition = "category_type not null")
-    private CategoryType type;
+    @Column(name = "prep_time", nullable = false, precision = 5, scale = 2)
+    private BigDecimal prepTime;
+
+    @Column(name = "price", precision = 8, scale = 2)
+    private BigDecimal price;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "dish_category_id", nullable = false)
+    private CategoryEntity dishCategory;
 
     @ColumnDefault("true")
-    @Column(name = "active")
-    private Boolean active;
+    @Column(name = "is_available")
+    private Boolean isAvailable;
+
+    @Column(name = "image_url", length = Integer.MAX_VALUE)
+    private String imageUrl;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")

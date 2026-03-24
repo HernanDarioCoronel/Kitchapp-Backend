@@ -17,7 +17,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "order_dish", schema = "public")
-public class OrderDish {
+public class OrderDishEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -27,12 +27,12 @@ public class OrderDish {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private OrderEntity order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "dish_id")
-    private Dish dish;
+    private DishEntity dish;
 
     @Column(name = "count", nullable = false)
     private Integer count;

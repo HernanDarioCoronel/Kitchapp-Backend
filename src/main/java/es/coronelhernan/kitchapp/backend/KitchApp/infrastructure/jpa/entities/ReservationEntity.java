@@ -17,7 +17,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "reservations", schema = "public")
-public class Reservation {
+public class ReservationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -38,7 +38,7 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_tables_id")
-    private RestaurantTable restaurantTables;
+    private RestaurantTableEntity restaurantTables;
 
     @ColumnDefault("'CONFIRMED'")
     @Enumerated(EnumType.STRING)
