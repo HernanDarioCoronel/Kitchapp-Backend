@@ -11,14 +11,16 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor(access = AccessLevel.PRIVATE) // solo para builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(toBuilder = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "table_occupations", schema = "public")
 public class TableOccupationEntity {
     @Id
     @ColumnDefault("gen_random_uuid()")
     @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

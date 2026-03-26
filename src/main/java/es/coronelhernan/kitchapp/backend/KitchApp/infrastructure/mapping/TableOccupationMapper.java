@@ -6,20 +6,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TableOccupationMapper {
-    public TableOccupation toDomain(TableOccupation entity) {
+    public static TableOccupation toDomain(TableOccupationEntity entity) {
         return TableOccupation.builder()
                 .id(entity.getId())
-                .table(entity.getTable())
+                .table(RestaurantTableMapper.toDomain(entity.getTable()))
                 .startedAt(entity.getStartedAt())
                 .endedAt(entity.getEndedAt())
                 .status(entity.getStatus())
                 .build();
     }
 
-    public TableOccupationEntity toEntity(TableOccupation domain) {
+    public static TableOccupationEntity toEntity(TableOccupation domain) {
         return TableOccupationEntity.builder()
                 .id(domain.getId())
-                //.table(domain.getTable()) TO DO: mapper de table
+                .table(RestaurantTableMapper.toEntity(domain.getTable()))
                 .startedAt(domain.getStartedAt())
                 .endedAt(domain.getEndedAt())
                 .status(domain.getStatus())

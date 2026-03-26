@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TableOccupation {
+    @EqualsAndHashCode.Include
     private UUID id;
     private RestaurantTable table;
     private OffsetDateTime startedAt;
@@ -28,12 +29,14 @@ public class TableOccupation {
                 .build();
     }
 
-    public void close() throws AlreadyClosedException {
+    public TableOccupation close() throws AlreadyClosedException {
         if (this.endedAt != null){
             throw new AlreadyClosedException();
         }
-        this.endedAt = OffsetDateTime.now();
-        this.status = OccupationStatus.CLOSED;
+        return this.toBuilder()
+                .endedAt(OffsetDateTime.now())
+                .status(OccupationStatus.CLOSED)
+                .build();
     }
 }
 
