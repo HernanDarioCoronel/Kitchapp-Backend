@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface TableOccupationEntityRepository extends JpaRepository<TableOccupationEntity, UUID> {
+public interface TableOccupationEntityRepository
+        extends JpaRepository<TableOccupationEntity, UUID> {
     Optional<TableOccupationEntity> findByTableIdAndEndedAtIsNull(UUID tableId);
 }
