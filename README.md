@@ -11,6 +11,7 @@ Backend de una aplicacion de hosteleria para gestionar operaciones de restaurant
 - Spring Web + Spring Data JPA + WebSocket
 - PostgreSQL
 - Flyway (migraciones)
+- Springdoc OpenAPI / Swagger UI
 - Maven Wrapper (`mvnw`, `mvnw.cmd`)
 - Lombok + MapStruct
 - Docker Compose (servicio PostgreSQL)
@@ -79,6 +80,19 @@ Por defecto se expone PostgreSQL en `localhost:5432`.
 
 ```powershell
 .\mvnw.cmd clean spring-boot:run
+```
+
+## Swagger / OpenAPI
+
+Una vez levantada la aplicacion, la documentacion queda disponible en:
+
+- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+- OpenAPI JSON: `http://localhost:8080/v3/api-docs`
+
+Si usas endpoints protegidos con JWT, abre la opcion **Authorize** en Swagger UI y pega el token con el prefijo:
+
+```text
+Bearer <tu-token>
 ```
 
 ## Ejecutar tests

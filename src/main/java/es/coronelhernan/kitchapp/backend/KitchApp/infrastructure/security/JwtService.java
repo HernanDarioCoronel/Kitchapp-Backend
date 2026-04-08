@@ -8,6 +8,8 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -59,16 +61,28 @@ public class JwtService {
     }
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes;
         String secret = jwtProperties.getSecret();
+        byte[] keyBytes;
 
         try {
             keyBytes = Decoders.BASE64.decode(secret);
-        } catch (IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
             keyBytes = secret.getBytes(StandardCharsets.UTF_8);
         }
 
+        if (keyBytes.length < 32) {
+            keyBytes = sha256(keyBytes);
+        }
+
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private byte[] sha256(byte[] input) {
+        try {
+            return MessageDigest.getInstance("SHA-256").digest(input);
+        } catch (NoSuchAlgorithmException ex) {
+            throw new IllegalStateException("SHA-256 no disponible", ex);
+        }
     }
 }
 
