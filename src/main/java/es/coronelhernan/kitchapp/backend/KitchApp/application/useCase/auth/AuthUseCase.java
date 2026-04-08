@@ -1,12 +1,9 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth;
 
-import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.EmployeeRole;
-import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities.AuthUserEntity;
-import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities.RefreshTokenEntity;
-import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.repositories.AuthUserEntityRepository;
-import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.repositories.RefreshTokenEntityRepository;
-import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.security.JwtProperties;
-import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.security.JwtService;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.model.AuthUserSnapshot;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.model.RefreshTokenSnapshot;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.port.AccessTokenPort;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.port.AuthPersistencePort;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,36 +19,30 @@ import java.util.UUID;
 @Service
 public class AuthUseCase {
 
-    private final AuthUserEntityRepository authUserRepository;
-    private final RefreshTokenEntityRepository refreshTokenRepository;
+    private final AuthPersistencePort authPersistencePort;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final JwtProperties jwtProperties;
+    private final AccessTokenPort accessTokenPort;
 
     public AuthUseCase(
-            AuthUserEntityRepository authUserRepository,
-            RefreshTokenEntityRepository refreshTokenRepository,
+            AuthPersistencePort authPersistencePort,
             PasswordEncoder passwordEncoder,
-            JwtService jwtService,
-            JwtProperties jwtProperties
+            AccessTokenPort accessTokenPort
     ) {
-        this.authUserRepository = authUserRepository;
-        this.refreshTokenRepository = refreshTokenRepository;
+        this.authPersistencePort = authPersistencePort;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-        this.jwtProperties = jwtProperties;
+        this.accessTokenPort = accessTokenPort;
     }
 
     @Transactional
     public TokenPair login(String username, String password) {
-        AuthUserEntity authUser = authUserRepository.findByUsernameIgnoreCaseAndIsActiveTrue(username)
+        AuthUserSnapshot authUser = authPersistencePort.findActiveUserByUsername(username)
                 .orElseThrow(() -> new BadCredentialsException("Credenciales invalidas"));
 
-        if (authUser.getEmployee() == null || Boolean.FALSE.equals(authUser.getEmployee().getIsActive())) {
+        if (!authUser.employeeActive() || authUser.role() == null) {
             throw new BadCredentialsException("Usuario inactivo");
         }
 
-        if (!passwordEncoder.matches(password, authUser.getPasswordHash())) {
+        if (!passwordEncoder.matches(password, authUser.passwordHash())) {
             throw new BadCredentialsException("Credenciales invalidas");
         }
 
@@ -61,51 +52,43 @@ public class AuthUseCase {
     @Transactional
     public TokenPair refresh(String refreshToken) {
         String tokenHash = hashToken(refreshToken);
-        RefreshTokenEntity currentToken = refreshTokenRepository.findByTokenHashAndRevokedAtIsNull(tokenHash)
+        RefreshTokenSnapshot currentToken = authPersistencePort.findActiveRefreshTokenByHash(tokenHash)
                 .orElseThrow(() -> new BadCredentialsException("Refresh token invalido"));
 
-        if (currentToken.getExpiresAt().isBefore(OffsetDateTime.now())) {
-            currentToken.setRevokedAt(OffsetDateTime.now());
-            refreshTokenRepository.save(currentToken);
+        OffsetDateTime now = OffsetDateTime.now();
+        if (currentToken.expiresAt().isBefore(now)) {
+            authPersistencePort.revokeRefreshToken(currentToken.id(), now);
             throw new BadCredentialsException("Refresh token expirado");
         }
 
-        currentToken.setRevokedAt(OffsetDateTime.now());
-        refreshTokenRepository.save(currentToken);
+        authPersistencePort.revokeRefreshToken(currentToken.id(), now);
 
-        return issueTokens(currentToken.getAuthUser(), currentToken);
+        return issueTokens(currentToken.authUser(), currentToken.id());
     }
 
     @Transactional
     public void logout(String refreshToken) {
         String tokenHash = hashToken(refreshToken);
-        refreshTokenRepository.findByTokenHashAndRevokedAtIsNull(tokenHash)
-                .ifPresent(token -> {
-                    token.setRevokedAt(OffsetDateTime.now());
-                    refreshTokenRepository.save(token);
-                });
+        authPersistencePort.findActiveRefreshTokenByHash(tokenHash)
+                .ifPresent(token -> authPersistencePort.revokeRefreshToken(token.id(), OffsetDateTime.now()));
     }
 
-    private TokenPair issueTokens(AuthUserEntity authUser, RefreshTokenEntity previousToken) {
-        EmployeeRole role = authUser.getEmployee().getRole();
-        String accessToken = jwtService.generateAccessToken(authUser.getId(), authUser.getUsername(), role);
+    private TokenPair issueTokens(AuthUserSnapshot authUser, UUID previousTokenId) {
+        String accessToken = accessTokenPort.generateAccessToken(authUser.id(), authUser.username(), authUser.role());
 
         String plainRefreshToken = UUID.randomUUID() + "." + UUID.randomUUID();
-        RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity();
-        refreshTokenEntity.setAuthUser(authUser);
-        refreshTokenEntity.setTokenHash(hashToken(plainRefreshToken));
-        refreshTokenEntity.setExpiresAt(OffsetDateTime.now().plusDays(jwtProperties.getRefreshTokenExpirationDays()));
-        refreshTokenEntity.setRevokedAt(null);
-        refreshTokenEntity.setCreatedAt(OffsetDateTime.now());
+        RefreshTokenSnapshot savedToken = authPersistencePort.createRefreshToken(
+                authUser.id(),
+                hashToken(plainRefreshToken),
+                OffsetDateTime.now().plusDays(accessTokenPort.getRefreshTokenExpirationDays()),
+                OffsetDateTime.now()
+        );
 
-        RefreshTokenEntity savedToken = refreshTokenRepository.save(refreshTokenEntity);
-
-        if (previousToken != null) {
-            previousToken.setReplacedBy(savedToken);
-            refreshTokenRepository.save(previousToken);
+        if (previousTokenId != null) {
+            authPersistencePort.linkReplacement(previousTokenId, savedToken.id());
         }
 
-        long expiresIn = jwtProperties.getAccessTokenExpirationMinutes() * 60;
+        long expiresIn = accessTokenPort.getAccessTokenExpirationSeconds();
         return new TokenPair(accessToken, plainRefreshToken, expiresIn);
     }
 

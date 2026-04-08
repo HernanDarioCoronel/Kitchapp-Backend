@@ -1,0 +1,44 @@
+package es.coronelhernan.kitchapp.backend.KitchApp.api.controller;
+
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.models.Employee;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.EmployeeUseCase;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/employees")
+@RequiredArgsConstructor
+public class EmployeeController {
+    private final EmployeeUseCase useCase;
+
+    @PostMapping
+    public ResponseEntity<Employee> create(@RequestBody Employee employee) {
+        var result = useCase.save(employee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> findById(@PathVariable UUID id) {
+        return useCase.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Employee>> findAll() {
+        var result = useCase.findAll();
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        useCase.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+

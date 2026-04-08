@@ -1,6 +1,6 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.domain.models;
 
-import jakarta.servlet.UnavailableException;
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.exceptions.TableUnavailableException;
 import lombok.*;
 
 import java.util.UUID;
@@ -16,9 +16,9 @@ public class RestaurantTable {
     private Short capacity;
     private Boolean isActive;
 
-    public TableOccupation occupy() throws UnavailableException {
-        if(!this.isActive){
-            throw new UnavailableException("La mesa esta ocupada");
+    public TableOccupation occupy() {
+        if (!this.isActive) {
+            throw new TableUnavailableException("La mesa no esta disponible para ocupar");
         }
 
         return TableOccupation.start(this);
