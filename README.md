@@ -76,6 +76,27 @@ docker compose ps
 
 Por defecto se expone PostgreSQL en `localhost:5432`.
 
+## Ver tablas desde el navegador
+
+Se agregó `CloudBeaver` en el `docker-compose.yml`, que es la version web de DBeaver.
+
+1. Levanta los contenedores:
+
+```powershell
+docker compose up -d
+```
+
+2. Abre `http://localhost:8978`.
+3. Crea una conexion nueva a PostgreSQL usando estos datos:
+
+   - Host: `postgres`
+   - Puerto: `5432`
+   - Base de datos: `kitchapp` o el valor de `ENV_DATABASE_NAME`
+   - Usuario: el valor de `ENV_POSTGRES_USER`
+   - Password: el valor de `ENV_POSTGRES_PASSW`
+
+CloudBeaver arranca con el nombre `cloudbeaver` dentro de la red de Docker, así que al crear la conexión usa ese host en lugar de `localhost`.
+
 ## Ejecutar la aplicacion
 
 ```powershell
