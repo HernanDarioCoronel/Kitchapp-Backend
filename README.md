@@ -141,6 +141,29 @@ Comandos utiles:
 
 Si necesitas ejecutar Flyway Maven plugin fuera del contexto de Spring, puede requerir propiedades explicitas (`flyway.url`, `flyway.user`, `flyway.password`).
 
+## Seeder de datos
+
+El proyecto incluye una migracion de seed en `src/main/resources/db/migration/V15__seed_data.sql` con datos iniciales para desarrollo:
+
+- categorias base
+- tipos de unidad
+- impuestos
+- alergenos
+- empleados
+- mesas
+- proveedores
+- productos
+- platos
+- stock inicial
+- usuario administrador inicial
+
+### Credenciales iniciales
+
+- Usuario: `admin@kitchapp.local`
+- Password: `Admin123!`
+
+> Recomendacion: cambia estas credenciales en cuanto levantes el entorno y no las uses en produccion.
+
 ## Roadmap corto sugerido
 
 - Exponer APIs REST por modulo (`api/controller`).
