@@ -25,7 +25,7 @@ public class TaxEntity {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Column(name = "value", nullable = false, precision = 2, scale = 3)
+    @Column(name = "value", nullable = false, precision = 5, scale = 3)
     private BigDecimal value;
 
 }
