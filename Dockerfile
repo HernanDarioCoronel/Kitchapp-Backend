@@ -2,7 +2,7 @@ FROM maven:3.9-eclipse-temurin-21 AS builder
 LABEL authors="https://github.com/HernanDarioCoronel"
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN mvn dependency:resolve -DincludeScope=compile || true
 COPY src ./src
 RUN mvn clean package -DskipTests
 
