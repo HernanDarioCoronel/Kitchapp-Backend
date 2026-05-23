@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class SupplierUseCase {
         var supplier = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Proveedor no encontrado"));
         this.repository.delete(supplier);
+    }
+
+    @Transactional
+    public Supplier update(UUID id, Supplier patch) {
+        var supplier = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Proveedor no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, supplier, "id", "createdAt");
+        return this.repository.save(supplier);
     }
 }
 

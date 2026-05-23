@@ -40,5 +40,11 @@ public class PaymentController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Payment> update(@PathVariable UUID id, @RequestBody Payment patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 

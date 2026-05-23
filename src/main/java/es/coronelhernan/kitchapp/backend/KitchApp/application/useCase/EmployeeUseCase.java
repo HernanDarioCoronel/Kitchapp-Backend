@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class EmployeeUseCase {
         var employee = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
         this.repository.delete(employee);
+    }
+
+    @Transactional
+    public Employee update(UUID id, Employee patch) {
+        var employee = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Empleado no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, employee, "id", "createdAt");
+        return this.repository.save(employee);
     }
 }
 

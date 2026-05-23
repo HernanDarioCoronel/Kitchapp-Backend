@@ -36,8 +36,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> findAll() {
-        var result = useCase.findAll().stream()
+    public ResponseEntity<List<ProductResponse>> findAll(@RequestParam(name = "type", defaultValue = "0") int type) {
+        var result = useCase.findAllByType(type).stream()
                 .map(mapper::toResponse)
                 .toList();
         return ResponseEntity.ok(result);
@@ -48,6 +48,13 @@ public class ProductController {
             @PathVariable UUID id) {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductResponse> update(@PathVariable UUID id, @RequestBody ProductRequest request) {
+        var patched = mapper.toDomain(request);
+        var result = useCase.update(id, patched);
+        return ResponseEntity.ok(mapper.toResponse(result));
     }
 }
 

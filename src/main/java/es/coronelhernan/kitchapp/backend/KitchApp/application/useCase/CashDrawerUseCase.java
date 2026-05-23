@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class CashDrawerUseCase {
         var cashDrawer = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Caja no encontrada"));
         this.repository.delete(cashDrawer);
+    }
+
+    @Transactional
+    public CashDrawer update(UUID id, CashDrawer patch) {
+        var cashDrawer = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Caja no encontrada"));
+        PatchUtils.copyNonNullProperties(patch, cashDrawer, "id", "createdAt");
+        return this.repository.save(cashDrawer);
     }
 }
 

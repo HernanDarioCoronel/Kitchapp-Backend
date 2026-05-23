@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -47,5 +48,13 @@ public class AllergenUseCase {
     @Transactional
     public List<Allergen> findAll() {
         return this.allergenRepository.findAll();
+    }
+
+    @Transactional
+    public Allergen update(UUID id, Allergen patch) {
+        var allergen = this.allergenRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Alergeno no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, allergen, "id", "createdAt");
+        return this.allergenRepository.save(allergen);
     }
 }

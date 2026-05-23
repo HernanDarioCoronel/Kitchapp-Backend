@@ -42,6 +42,12 @@ public class SupplierController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @PatchMapping("/{id}")
+    public ResponseEntity<Supplier> update(@PathVariable UUID id, @RequestBody Supplier patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 
 

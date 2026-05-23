@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class PaymentUseCase {
         var payment = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Pago no encontrado"));
         this.repository.delete(payment);
+    }
+
+    @Transactional
+    public Payment update(UUID id, Payment patch) {
+        var payment = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Pago no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, payment, "id", "createdAt");
+        return this.repository.save(payment);
     }
 }
 

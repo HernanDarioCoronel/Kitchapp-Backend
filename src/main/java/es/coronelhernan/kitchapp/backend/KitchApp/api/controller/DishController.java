@@ -23,15 +23,16 @@ public class DishController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Dish> findById(@PathVariable UUID id) {
-        return useCase.findById(id)
+    public ResponseEntity<Dish> findById(@PathVariable UUID id, @RequestParam(name = "withIngredients", defaultValue = "0") int withIngredients) {
+        return useCase.findById(id, withIngredients == 1)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public ResponseEntity<List<Dish>> findAll() {
-        var result = useCase.findAll();
+    public ResponseEntity<List<Dish>> findAll(
+            @RequestParam(name = "withIngredients", defaultValue = "0") int withIngredients) {
+        var result = useCase.findAll(withIngredients == 1);
         return ResponseEntity.ok(result);
     }
 
@@ -39,6 +40,12 @@ public class DishController {
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Dish> update(@PathVariable UUID id, @RequestBody Dish patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
     }
 }
 

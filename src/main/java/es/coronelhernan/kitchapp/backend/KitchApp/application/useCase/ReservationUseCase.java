@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class ReservationUseCase {
         var reservation = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
         this.repository.delete(reservation);
+    }
+
+    @Transactional
+    public Reservation update(UUID id, Reservation patch) {
+        var reservation = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
+        PatchUtils.copyNonNullProperties(patch, reservation, "id", "createdAt");
+        return this.repository.save(reservation);
     }
 }
 

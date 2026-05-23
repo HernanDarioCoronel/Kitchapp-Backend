@@ -40,5 +40,11 @@ public class TaxController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Tax> update(@PathVariable UUID id, @RequestBody Tax patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 

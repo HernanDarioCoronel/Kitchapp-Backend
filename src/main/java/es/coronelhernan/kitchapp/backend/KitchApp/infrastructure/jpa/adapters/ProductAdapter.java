@@ -1,5 +1,6 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.adapters;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.ProductType;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.models.Product;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.repositories.ProductRepository;
 import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.repositories.ProductEntityRepository;
@@ -39,6 +40,13 @@ public class ProductAdapter implements ProductRepository {
     @Override
     public void delete(Product domain) {
         this.jpaRepository.deleteById(domain.getId());
+    }
+
+    @Override
+    public List<Product> findAllByType(ProductType type) {
+        return this.jpaRepository.findByType(type).stream()
+                .map(this.mapper::toDomain)
+                .toList();
     }
 }
 

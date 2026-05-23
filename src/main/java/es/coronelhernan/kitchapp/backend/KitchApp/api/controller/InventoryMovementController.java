@@ -40,5 +40,11 @@ public class InventoryMovementController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<InventoryMovement> update(@PathVariable UUID id, @RequestBody InventoryMovement patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 

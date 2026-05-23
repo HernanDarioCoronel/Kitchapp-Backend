@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class UnitTypeUseCase {
         var unitType = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Tipo de unidad no encontrado"));
         this.repository.delete(unitType);
+    }
+
+    @Transactional
+    public UnitType update(UUID id, UnitType patch) {
+        var unitType = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Tipo de unidad no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, unitType, "id", "createdAt");
+        return this.repository.save(unitType);
     }
 }
 

@@ -40,5 +40,11 @@ public class UnitTypeController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UnitType> update(@PathVariable UUID id, @RequestBody UnitType patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 

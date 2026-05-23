@@ -40,5 +40,12 @@ public class StockController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Stock> update(@PathVariable UUID id, @RequestBody Stock patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
+
 }
 

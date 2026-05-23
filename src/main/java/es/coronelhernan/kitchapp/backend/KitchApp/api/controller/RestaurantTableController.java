@@ -42,6 +42,12 @@ public class RestaurantTableController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<RestaurantTable> update(@PathVariable UUID id, @RequestBody RestaurantTable patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 
 

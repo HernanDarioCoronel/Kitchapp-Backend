@@ -42,6 +42,12 @@ public class AllergenController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Allergen> update(@PathVariable UUID id, @RequestBody Allergen patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 
 

@@ -42,6 +42,12 @@ public class CategoryController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Category> update(@PathVariable UUID id, @RequestBody Category patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 
 

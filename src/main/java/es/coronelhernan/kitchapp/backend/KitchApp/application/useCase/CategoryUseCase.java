@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class CategoryUseCase {
         var category = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Categoria no encontrada"));
         this.repository.delete(category);
+    }
+
+    @Transactional
+    public Category update(UUID id, Category patch) {
+        var category = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Categoria no encontrada"));
+        PatchUtils.copyNonNullProperties(patch, category, "id", "createdAt");
+        return this.repository.save(category);
     }
 }
 

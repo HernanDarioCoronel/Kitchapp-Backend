@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class OrderUseCase {
         var order = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Pedido no encontrado"));
         this.repository.delete(order);
+    }
+
+    @Transactional
+    public Order update(UUID id, Order patch) {
+        var order = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Pedido no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, order, "id", "createdAt");
+        return this.repository.save(order);
     }
 }
 

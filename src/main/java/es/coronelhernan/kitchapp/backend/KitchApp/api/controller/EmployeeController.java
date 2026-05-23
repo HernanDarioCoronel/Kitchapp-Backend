@@ -40,5 +40,11 @@ public class EmployeeController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Employee> update(@PathVariable UUID id, @RequestBody Employee patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 

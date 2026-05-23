@@ -40,5 +40,11 @@ public class ReservationController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Reservation> update(@PathVariable UUID id, @RequestBody Reservation patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 

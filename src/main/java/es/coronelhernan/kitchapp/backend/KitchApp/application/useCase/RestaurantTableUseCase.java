@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class RestaurantTableUseCase {
         var table = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Mesa no encontrada"));
         this.repository.delete(table);
+    }
+
+    @Transactional
+    public RestaurantTable update(UUID id, RestaurantTable patch) {
+        var table = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Mesa no encontrada"));
+        PatchUtils.copyNonNullProperties(patch, table, "id", "createdAt");
+        return this.repository.save(table);
     }
 }
 

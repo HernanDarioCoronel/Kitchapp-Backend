@@ -40,5 +40,11 @@ public class CashDrawerController {
         useCase.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CashDrawer> update(@PathVariable UUID id, @RequestBody CashDrawer patch) {
+        var result = useCase.update(id, patch);
+        return ResponseEntity.ok(result);
+    }
 }
 

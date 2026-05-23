@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,6 +36,14 @@ public class TaxUseCase {
         var tax = this.repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Impuesto no encontrado"));
         this.repository.delete(tax);
+    }
+
+    @Transactional
+    public Tax update(UUID id, Tax patch) {
+        var tax = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Impuesto no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, tax, "id", "createdAt");
+        return this.repository.save(tax);
     }
 }
 

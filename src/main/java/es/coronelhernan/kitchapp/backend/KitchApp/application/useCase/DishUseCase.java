@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -26,7 +27,23 @@ public class DishUseCase {
     }
 
     @Transactional
+    public Optional<Dish> findById(UUID id, boolean withIngredients) {
+        if (withIngredients) {
+            return this.repository.findByIdWithIngredients(id);
+        }
+        return this.repository.findById(id);
+    }
+
+    @Transactional
     public List<Dish> findAll() {
+        return this.repository.findAll();
+    }
+
+    @Transactional
+    public List<Dish> findAll(boolean withIngredients) {
+        if (withIngredients) {
+            return this.repository.findAllWithIngredients();
+        }
         return this.repository.findAll();
     }
 
@@ -36,5 +53,12 @@ public class DishUseCase {
                 .orElseThrow(() -> new IllegalArgumentException("Plato no encontrado"));
         this.repository.delete(dish);
     }
-}
 
+    @Transactional
+    public Dish update(UUID id, Dish patch) {
+        var dish = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Plato no encontrado"));
+        PatchUtils.copyNonNullProperties(patch, dish, "id", "createdAt");
+        return this.repository.save(dish);
+    }
+}
