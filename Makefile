@@ -1,4 +1,4 @@
-.PHONY: help up down build restart logs clean rebuild watch
+.PHONY: help up down build restart logs clean rebuild watch rebuild-watch logs-all clean ps
 
 COMPOSE = docker compose
 APP = backend
@@ -20,6 +20,9 @@ restart:
 
 watch:
 	$(COMPOSE) up --watch
+
+rebuild-watch:
+	$(COMPOSE) up --watch --build $(APP)
 
 logs:
 	$(COMPOSE) logs -f $(APP)

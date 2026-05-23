@@ -1,7 +1,6 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.repositories;
 
 import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities.DishIngredientEntity;
-import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

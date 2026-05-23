@@ -4,7 +4,7 @@ spring:
   application:
     name: KitchApp
   datasource:
-    url: jdbc:postgresql://localhost:5432/${ENV_DATABASE_NAME}
+    url: jdbc:postgresql://localhost:5432/${ENV_DATABASE_NAME}?stringtype=unspecified
     username: ${ENV_POSTGRES_USER}
     password: ${ENV_POSTGRES_PASSW}
     driver-class-name: org.postgresql.Driver
