@@ -43,3 +43,10 @@ app:
       access-token-expiration-minutes: ${ENV_JWT_ACCESS_MINUTES:15}
       refresh-token-expiration-days: ${ENV_JWT_REFRESH_DAYS:7}
 
+# Configuración simple para almacenamiento local de imágenes (dev/proyecto local)
+  storage:
+    # Ruta relativa o absoluta donde se guardarán los archivos (por defecto: uploads)
+    location: ${ENV_STORAGE_PATH:uploads}
+    # Base URL pública opcional (si sirves archivos desde un CDN o dominio distinto)
+    base-url: ${ENV_STORAGE_BASE_URL:http://localhost:8080}
+
