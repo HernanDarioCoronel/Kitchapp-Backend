@@ -22,8 +22,8 @@ public interface ProductApiMapper {
     @Mapping(target = "allergens", expression = "java(toAllergens(request.allergenIds()))")
     Product toDomain(ProductRequest request);
 
-    @Mapping(target = "categoryId", expression = "java(product.getCategory() == null ? null : product.getCategory().getId())")
-    @Mapping(target = "unitTypeId", expression = "java(product.getUnitType() == null ? null : product.getUnitType().getId())")
+    @Mapping(target = "category", source = "category")
+    @Mapping(target = "unitType", source = "unitType")
     @Mapping(target = "allergenIds", expression = "java(toAllergenIds(product.getAllergens()))")
     ProductResponse toResponse(Product product);
 
