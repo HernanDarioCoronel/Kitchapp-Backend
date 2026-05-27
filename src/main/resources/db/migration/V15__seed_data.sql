@@ -224,7 +224,7 @@ VALUES
         '00000000-0000-0000-0000-000000001201',
         '00000000-0000-0000-0000-000000000501',
         'admin@kitchapp.local',
-        '$2a$10$6sRt32pLhgFb48gXXzvjZO4OgNaiwcTFtBQz0.tNStoVsoDKlRwjK',
+        '$2a$10$g9P2aVQd75M95F9nldInUOgeW08wwrEzil.KndrCuwgCEUzRhyKl6',
         true
     )
 ON CONFLICT (id) DO NOTHING;
