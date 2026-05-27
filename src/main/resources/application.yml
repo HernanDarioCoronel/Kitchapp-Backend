@@ -40,7 +40,7 @@ app:
   security:
     jwt:
       secret: ${ENV_JWT_SECRET:change-this-secret-in-env-change-this-secret-in-env-123456}
-      access-token-expiration-minutes: ${ENV_JWT_ACCESS_MINUTES:15}
+      access-token-expiration-minutes: ${ENV_JWT_ACCESS_MINUTES:480}
       refresh-token-expiration-days: ${ENV_JWT_REFRESH_DAYS:7}
 
 # Configuración simple para almacenamiento local de imágenes (dev/proyecto local)

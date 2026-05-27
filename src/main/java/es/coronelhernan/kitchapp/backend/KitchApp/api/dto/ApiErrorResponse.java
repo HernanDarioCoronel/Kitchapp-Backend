@@ -1,5 +1,9 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.api.dto;
 
-public record ApiErrorResponse(String message) {
-}
+import java.util.List;
 
+public record ApiErrorResponse(String message, List<String> details) {
+    public ApiErrorResponse(String message) {
+        this(message, List.of());
+    }
+}
