@@ -1,7 +1,6 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.domain.models;
 
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OccupationStatus;
-import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OrderStatus;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.exceptions.AlreadyClosedException;
 import lombok.*;
 
@@ -11,6 +10,7 @@ import java.util.UUID;
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TableOccupation {
     @EqualsAndHashCode.Include
@@ -38,5 +38,6 @@ public class TableOccupation {
                 .status(OccupationStatus.CLOSED)
                 .build();
     }
+
 }
 

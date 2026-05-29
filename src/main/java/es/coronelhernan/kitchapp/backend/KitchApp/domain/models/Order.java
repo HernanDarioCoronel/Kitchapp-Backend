@@ -11,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Order {
     @EqualsAndHashCode.Include
@@ -41,4 +42,5 @@ public class Order {
         this.tip = tip;
         this.closedAt = OffsetDateTime.now();
     }
+
 }

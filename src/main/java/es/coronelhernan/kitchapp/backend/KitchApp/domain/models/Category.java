@@ -9,6 +9,7 @@ import java.util.UUID;
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Category {
     @EqualsAndHashCode.Include
