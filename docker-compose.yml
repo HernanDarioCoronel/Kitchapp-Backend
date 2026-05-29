@@ -22,10 +22,13 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
+    env_file: .env
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${ENV_DATABASE_NAME}?stringtype=unspecified
       SPRING_DATASOURCE_USERNAME: ${ENV_POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${ENV_POSTGRES_PASSW}
+    volumes:
+      - ./src/main/resources/images:/app/uploads
     depends_on:
       postgres:
         condition: service_healthy
