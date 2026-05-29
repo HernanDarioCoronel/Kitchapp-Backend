@@ -21,6 +21,7 @@ public class Product {
     private Category category;
     private UnitType unitType;
     private BigDecimal caloriesPer100g;
+    private String imageUrl;
     private Boolean isActive;
     private OffsetDateTime createdAt;
     private Set<Allergen> allergens;
