@@ -1,4 +1,4 @@
-.PHONY: help up down build restart logs clean rebuild watch rebuild-watch logs-all clean ps
+.PHONY: help up down build restart logs clean rebuild watch rebuild-watch logs-all clean ps db-rollback
 
 COMPOSE = docker compose
 APP = backend
@@ -35,3 +35,6 @@ clean:
 
 ps:
 	$(COMPOSE) ps
+
+db-rollback:
+	$(COMPOSE) exec postgres sh -c 'psql -U $$POSTGRES_USER -d $$POSTGRES_DB -c "DELETE FROM flyway_schema_history WHERE installed_rank = (SELECT MAX(installed_rank) FROM flyway_schema_history);"'
