@@ -16,6 +16,7 @@ public class Category {
     private String name;
     private String description;
     private CategoryType type;
+    private String color;
     private Boolean active;
     private OffsetDateTime createdAt;
 }

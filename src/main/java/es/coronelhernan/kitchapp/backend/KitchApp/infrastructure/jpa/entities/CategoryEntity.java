@@ -40,6 +40,9 @@ public class CategoryEntity {
     @Column(name = "active")
     private Boolean active;
 
+    @Column(name = "color", length = 7)
+    private String color;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
