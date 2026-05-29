@@ -15,5 +15,6 @@ public class DishIngredient {
     //private Dish dish;
     private Product product;
     private BigDecimal quantity;
+    private BigDecimal equivalentInGrams;
     private boolean isOptional;
 }

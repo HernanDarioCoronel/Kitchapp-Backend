@@ -38,6 +38,9 @@ public class DishIngredientEntity {
     @Column(name = "quantity", nullable = false, precision = 10, scale = 3)
     private BigDecimal quantity;
 
+    @Column(name = "equivalent_in_grams", nullable = false, precision = 10, scale = 3)
+    private BigDecimal equivalentInGrams;
+
     @ColumnDefault("false")
     @Column(name = "is_optional")
     private Boolean isOptional;
