@@ -1,0 +1,5 @@
+ALTER TABLE orders
+    ALTER COLUMN status SET DEFAULT 'WAITING';
+
+ALTER TABLE order_consumable_item
+    ADD COLUMN delivered BOOLEAN NOT NULL DEFAULT FALSE;

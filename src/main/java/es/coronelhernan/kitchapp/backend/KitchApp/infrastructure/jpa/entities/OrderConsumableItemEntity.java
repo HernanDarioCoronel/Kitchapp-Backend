@@ -40,4 +40,7 @@ public class OrderConsumableItemEntity {
     @Column(name = "total", nullable = false, precision = 5, scale = 2)
     private BigDecimal total;
 
+    @Column(name = "delivered", nullable = false)
+    private Boolean delivered = false;
+
 }

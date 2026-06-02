@@ -40,7 +40,7 @@ public class OrderEntity {
     @ColumnDefault("'WAITING'")
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "order_status not null")
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.WAITING;
 
     @ColumnDefault("0")
     @Column(name = "tip", nullable = false, precision = 10, scale = 2)

@@ -17,4 +17,5 @@ public class OrderConsumableItem {
     private Product product;
     private Integer count;
     private BigDecimal total;
+    private Boolean delivered;
 }
