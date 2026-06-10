@@ -2,6 +2,8 @@ package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -22,4 +24,8 @@ public class LayerEntity {
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "shape", nullable = false, columnDefinition = "jsonb")
+    private String shape;
 }

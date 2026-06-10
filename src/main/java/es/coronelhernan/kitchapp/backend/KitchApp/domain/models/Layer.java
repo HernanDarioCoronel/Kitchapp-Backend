@@ -13,4 +13,5 @@ public class Layer {
     @EqualsAndHashCode.Include
     private UUID id;
     private String name;
+    private String shape;
 }
