@@ -3,6 +3,7 @@ package es.coronelhernan.kitchapp.backend.KitchApp.domain.models;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.exceptions.TableUnavailableException;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +17,9 @@ public class RestaurantTable {
     private Short tableNumber;
     private Short capacity;
     private Boolean isActive;
+    private BigDecimal x;
+    private BigDecimal y;
+    private Layer layer;
 
     public TableOccupation occupy() {
         if (!this.isActive) {

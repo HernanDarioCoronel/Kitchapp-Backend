@@ -1,9 +1,7 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.domain.models;
 
-import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OrderDishStatus;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -11,12 +9,8 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class OrderDish {
+public class Layer {
     @EqualsAndHashCode.Include
     private UUID id;
-    //private Order order;
-    private Dish dish;
-    private Integer count;
-    private BigDecimal total;
-    private OrderDishStatus status;
+    private String name;
 }

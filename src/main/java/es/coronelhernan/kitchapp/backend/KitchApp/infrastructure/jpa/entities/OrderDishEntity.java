@@ -1,5 +1,6 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OrderDishStatus;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,5 +40,9 @@ public class OrderDishEntity {
 
     @Column(name = "total", nullable = false, precision = 5, scale = 2)
     private BigDecimal total;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private OrderDishStatus status = OrderDishStatus.WAITING;
 
 }

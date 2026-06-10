@@ -1,7 +1,10 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.api.controller;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.api.dto.CreateOrderRequest;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.models.Order;
 import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.OrderUseCase;
+import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.CreateOrderWithItemsUseCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +18,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderUseCase useCase;
+    private final CreateOrderWithItemsUseCase createOrderWithItemsUseCase;
 
     @PostMapping
-    public ResponseEntity<Order> create(@RequestBody Order order) {
-        var result = useCase.save(order);
+    public ResponseEntity<Order> create(@Valid @RequestBody CreateOrderRequest request) {
+        var result = createOrderWithItemsUseCase.execute(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 

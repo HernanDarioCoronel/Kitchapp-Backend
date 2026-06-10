@@ -32,4 +32,16 @@ public class RestaurantTableEntity {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @ColumnDefault("0")
+    @Column(name = "x", precision = 10, scale = 2)
+    private java.math.BigDecimal x;
+
+    @ColumnDefault("0")
+    @Column(name = "y", precision = 10, scale = 2)
+    private java.math.BigDecimal y;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "layer_id")
+    private LayerEntity layer;
+
 }
