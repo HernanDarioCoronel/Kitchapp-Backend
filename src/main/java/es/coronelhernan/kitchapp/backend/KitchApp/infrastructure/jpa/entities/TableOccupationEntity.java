@@ -18,6 +18,7 @@ import java.util.UUID;
 @Table(name = "table_occupations", schema = "public")
 public class TableOccupationEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @ColumnDefault("gen_random_uuid()")
     @Column(name = "id", nullable = false)
     @EqualsAndHashCode.Include

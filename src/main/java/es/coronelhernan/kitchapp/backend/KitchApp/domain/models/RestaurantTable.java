@@ -14,6 +14,7 @@ import java.util.UUID;
 public class RestaurantTable {
     @EqualsAndHashCode.Include
     private UUID id;
+    private String name;
     private Short tableNumber;
     private Short capacity;
     private Boolean isActive;

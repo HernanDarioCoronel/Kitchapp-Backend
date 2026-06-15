@@ -18,7 +18,7 @@ public class TableOccupationUseCase {
 
     @Transactional
     public TableOccupation save(TableOccupation occupation) {
-        return this.repository.save(occupation);
+        return this.repository.save(occupation.toBuilder().id(null).build());
     }
 
     @Transactional

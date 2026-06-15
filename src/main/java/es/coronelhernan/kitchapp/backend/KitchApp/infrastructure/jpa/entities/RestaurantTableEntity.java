@@ -22,6 +22,9 @@ public class RestaurantTableEntity {
     @EqualsAndHashCode.Include
     private UUID id;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @Column(name = "table_number", nullable = false)
     private Short tableNumber;
 
