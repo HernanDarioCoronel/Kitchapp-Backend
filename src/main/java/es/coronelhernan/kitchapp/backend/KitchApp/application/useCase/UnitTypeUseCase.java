@@ -18,7 +18,7 @@ public class UnitTypeUseCase {
 
     @Transactional
     public UnitType save(UnitType unitType) {
-        return this.repository.save(unitType);
+        return this.repository.save(unitType.toBuilder().id(null).build());
     }
 
     @Transactional

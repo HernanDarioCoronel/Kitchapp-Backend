@@ -18,7 +18,7 @@ public class RestaurantTableUseCase {
 
     @Transactional
     public RestaurantTable save(RestaurantTable table) {
-        return this.repository.save(table);
+        return this.repository.save(table.toBuilder().id(null).build());
     }
 
     @Transactional

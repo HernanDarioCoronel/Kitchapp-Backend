@@ -18,7 +18,7 @@ public class ReservationUseCase {
 
     @Transactional
     public Reservation save(Reservation reservation) {
-        return this.repository.save(reservation);
+        return this.repository.save(reservation.toBuilder().id(null).build());
     }
 
     @Transactional

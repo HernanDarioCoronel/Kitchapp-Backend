@@ -27,7 +27,6 @@ public class Order {
 
     public static Order create(TableOccupation tableOccupation, Employee employee, Set<OrderDish> orderDishSet, Set<OrderConsumableItem> orderConsumableItems) {
         return Order.builder()
-                .id(UUID.randomUUID())
                 .tableOccupation(tableOccupation)
                 .employee(employee)
                 .status(OrderStatus.IN_PREPARATION)

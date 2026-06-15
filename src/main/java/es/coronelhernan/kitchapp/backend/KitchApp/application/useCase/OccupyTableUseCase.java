@@ -27,7 +27,7 @@ public class OccupyTableUseCase {
 
         try {
             var occupation = table.occupy();
-            return this.occupationRepository.save(occupation);
+            return this.occupationRepository.save(occupation.toBuilder().id(null).build());
         } catch (TableUnavailableException ex) {
             throw new IllegalStateException("No se puede ocupar la mesa", ex);
         }

@@ -18,7 +18,7 @@ public class DishUseCase {
 
     @Transactional
     public Dish save(Dish dish) {
-        return this.repository.save(dish);
+        return this.repository.save(dish.toBuilder().id(null).build());
     }
 
     @Transactional

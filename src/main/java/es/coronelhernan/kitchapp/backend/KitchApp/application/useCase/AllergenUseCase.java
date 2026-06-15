@@ -19,7 +19,6 @@ public class AllergenUseCase {
     @Transactional
     public Allergen create(String name, String description) {
         var allergen = Allergen.builder()
-                .id(UUID.randomUUID())
                 .name(name)
                 .description(description)
                 .build();
@@ -29,7 +28,7 @@ public class AllergenUseCase {
 
     @Transactional
     public Allergen save(Allergen allergen) {
-        return this.allergenRepository.save(allergen);
+        return this.allergenRepository.save(allergen.toBuilder().id(null).build());
     }
 
     @Transactional

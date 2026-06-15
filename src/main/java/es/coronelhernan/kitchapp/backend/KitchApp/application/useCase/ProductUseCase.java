@@ -19,7 +19,7 @@ public class ProductUseCase {
 
     @Transactional
     public Product save(Product product) {
-        return this.repository.save(product);
+        return this.repository.save(product.toBuilder().id(null).build());
     }
 
     @Transactional

@@ -18,7 +18,7 @@ public class EmployeeUseCase {
 
     @Transactional
     public Employee save(Employee employee) {
-        return this.repository.save(employee);
+        return this.repository.save(employee.toBuilder().id(null).build());
     }
 
     @Transactional

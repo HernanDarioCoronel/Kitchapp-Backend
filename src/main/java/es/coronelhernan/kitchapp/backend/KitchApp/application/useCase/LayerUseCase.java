@@ -18,7 +18,7 @@ public class LayerUseCase {
 
     @Transactional
     public Layer save(Layer layer) {
-        return repository.save(layer);
+        return repository.save(layer.toBuilder().id(null).build());
     }
 
     @Transactional

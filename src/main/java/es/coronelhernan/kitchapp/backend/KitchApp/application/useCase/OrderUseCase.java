@@ -18,7 +18,7 @@ public class OrderUseCase {
 
     @Transactional
     public Order save(Order order) {
-        return this.repository.save(order);
+        return this.repository.save(order.toBuilder().id(null).build());
     }
 
     @Transactional

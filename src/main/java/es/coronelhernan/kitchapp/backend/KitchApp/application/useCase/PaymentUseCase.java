@@ -18,7 +18,7 @@ public class PaymentUseCase {
 
     @Transactional
     public Payment save(Payment payment) {
-        return this.repository.save(payment);
+        return this.repository.save(payment.toBuilder().id(null).build());
     }
 
     @Transactional

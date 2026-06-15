@@ -18,7 +18,7 @@ public class StockUseCase {
 
     @Transactional
     public Stock save(Stock stock) {
-        return this.repository.save(stock);
+        return this.repository.save(stock.toBuilder().id(null).build());
     }
 
     @Transactional

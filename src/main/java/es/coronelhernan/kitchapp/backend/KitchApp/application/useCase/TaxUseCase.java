@@ -18,7 +18,7 @@ public class TaxUseCase {
 
     @Transactional
     public Tax save(Tax tax) {
-        return this.repository.save(tax);
+        return this.repository.save(tax.toBuilder().id(null).build());
     }
 
     @Transactional

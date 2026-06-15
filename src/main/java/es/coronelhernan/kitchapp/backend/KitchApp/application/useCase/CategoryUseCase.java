@@ -18,7 +18,7 @@ public class CategoryUseCase {
 
     @Transactional
     public Category save(Category category) {
-        return this.repository.save(category);
+        return this.repository.save(category.toBuilder().id(null).build());
     }
 
     @Transactional

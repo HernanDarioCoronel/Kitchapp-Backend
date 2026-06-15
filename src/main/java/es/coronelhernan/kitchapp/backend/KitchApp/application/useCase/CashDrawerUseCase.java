@@ -18,7 +18,7 @@ public class CashDrawerUseCase {
 
     @Transactional
     public CashDrawer save(CashDrawer cashDrawer) {
-        return this.repository.save(cashDrawer);
+        return this.repository.save(cashDrawer.toBuilder().id(null).build());
     }
 
     @Transactional

@@ -18,7 +18,7 @@ public class InventoryMovementUseCase {
 
     @Transactional
     public InventoryMovement save(InventoryMovement movement) {
-        return this.repository.save(movement);
+        return this.repository.save(movement.toBuilder().id(null).build());
     }
 
     @Transactional

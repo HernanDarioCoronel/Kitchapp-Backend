@@ -18,7 +18,7 @@ public class SupplierUseCase {
 
     @Transactional
     public Supplier save(Supplier supplier) {
-        return this.repository.save(supplier);
+        return this.repository.save(supplier.toBuilder().id(null).build());
     }
 
     @Transactional

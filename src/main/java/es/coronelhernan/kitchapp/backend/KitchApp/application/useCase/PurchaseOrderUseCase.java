@@ -18,7 +18,7 @@ public class PurchaseOrderUseCase {
 
     @Transactional
     public PurchaseOrder save(PurchaseOrder purchaseOrder) {
-        return this.repository.save(purchaseOrder);
+        return this.repository.save(purchaseOrder.toBuilder().id(null).build());
     }
 
     @Transactional

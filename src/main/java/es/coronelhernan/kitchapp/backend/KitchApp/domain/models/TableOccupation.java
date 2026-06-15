@@ -22,7 +22,6 @@ public class TableOccupation {
 
     public static TableOccupation start(RestaurantTable rt) {
         return TableOccupation.builder()
-                .id(UUID.randomUUID())
                 .table(rt)
                 .startedAt(OffsetDateTime.now())
                 .status(OccupationStatus.OPEN)
