@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface OrderConsumableItemRepository {
     List<OrderConsumableItem> saveAll(List<OrderConsumableItem> items, UUID orderId);
+    OrderConsumableItem patch(UUID id, OrderConsumableItem patch);
 }

@@ -12,6 +12,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Setter
@@ -52,4 +54,10 @@ public class OrderEntity {
 
     @Column(name = "closed_at")
     private OffsetDateTime closedAt;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private Set<OrderDishEntity> orderDishes = new HashSet<>();
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private Set<OrderConsumableItemEntity> orderConsumableItems = new HashSet<>();
 }

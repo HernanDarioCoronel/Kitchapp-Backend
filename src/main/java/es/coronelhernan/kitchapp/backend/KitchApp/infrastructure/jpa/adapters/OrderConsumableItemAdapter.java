@@ -5,10 +5,12 @@ import es.coronelhernan.kitchapp.backend.KitchApp.domain.repositories.OrderConsu
 import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.repositories.OrderConsumableItemEntityRepository;
 import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.repositories.OrderEntityRepository;
 import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.mapping.OrderConsumableItemMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -28,5 +30,14 @@ public class OrderConsumableItemAdapter implements OrderConsumableItemRepository
                     return mapper.toDomain(jpaRepository.save(entity));
                 })
                 .toList();
+    }
+
+    @Transactional
+    @Override
+    public OrderConsumableItem patch(UUID id, OrderConsumableItem patch) {
+        var entity = jpaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("OrderConsumableItem no encontrado: " + id));
+        Optional.ofNullable(patch.getDelivered()).ifPresent(entity::setDelivered);
+        return mapper.toDomain(jpaRepository.save(entity));
     }
 }

@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface OrderDishRepository {
     List<OrderDish> saveAll(List<OrderDish> dishes, UUID orderId);
+    OrderDish patch(UUID id, OrderDish patch);
 }

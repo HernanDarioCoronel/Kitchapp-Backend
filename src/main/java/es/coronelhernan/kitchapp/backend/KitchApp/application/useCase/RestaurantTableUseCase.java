@@ -18,7 +18,10 @@ public class RestaurantTableUseCase {
 
     @Transactional
     public RestaurantTable save(RestaurantTable table) {
-        return this.repository.save(table.toBuilder().id(null).build());
+        String name = (table.getName() != null && !table.getName().isBlank())
+                ? table.getName()
+                : "Mesa " + table.getTableNumber();
+        return this.repository.save(table.toBuilder().id(null).name(name).build());
     }
 
     @Transactional

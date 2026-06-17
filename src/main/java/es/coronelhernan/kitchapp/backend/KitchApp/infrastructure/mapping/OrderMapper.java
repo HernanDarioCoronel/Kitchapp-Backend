@@ -5,12 +5,12 @@ import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.entities.Or
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {TableOccupationMapper.class, EmployeeMapper.class})
+@Mapper(componentModel = "spring", uses = {TableOccupationMapper.class, EmployeeMapper.class, OrderDishMapper.class, OrderConsumableItemMapper.class})
 public interface OrderMapper {
-    @Mapping(target = "orderDishes", ignore = true)
-    @Mapping(target = "orderConsumableItems", ignore = true)
     Order toDomain(OrderEntity entity);
 
+    @Mapping(target = "orderDishes", ignore = true)
+    @Mapping(target = "orderConsumableItems", ignore = true)
     OrderEntity toEntity(Order domain);
 }
 

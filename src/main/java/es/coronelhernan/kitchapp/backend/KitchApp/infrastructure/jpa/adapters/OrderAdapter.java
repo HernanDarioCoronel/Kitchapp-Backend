@@ -4,6 +4,7 @@ import es.coronelhernan.kitchapp.backend.KitchApp.domain.models.Order;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.repositories.OrderRepository;
 import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.jpa.repositories.OrderEntityRepository;
 import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.mapping.OrderMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,18 +18,21 @@ public class OrderAdapter implements OrderRepository {
     private final OrderEntityRepository jpaRepository;
     private final OrderMapper mapper;
 
+    @Transactional
     @Override
     public Order save(Order domain) {
         var savedEntity = this.jpaRepository.save(this.mapper.toEntity(domain));
         return this.mapper.toDomain(savedEntity);
     }
 
+    @Transactional
     @Override
     public Optional<Order> findById(UUID id) {
         return this.jpaRepository.findById(id)
                 .map(this.mapper::toDomain);
     }
 
+    @Transactional
     @Override
     public List<Order> findAll() {
         return this.jpaRepository.findAll().stream()

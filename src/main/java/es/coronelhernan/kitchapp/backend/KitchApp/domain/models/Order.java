@@ -30,6 +30,7 @@ public class Order {
                 .tableOccupation(tableOccupation)
                 .employee(employee)
                 .status(OrderStatus.IN_PREPARATION)
+                .tip(BigDecimal.ZERO)
                 .createdAt(OffsetDateTime.now())
                 .orderDishes(orderDishSet)
                 .orderConsumableItems(orderConsumableItems)
