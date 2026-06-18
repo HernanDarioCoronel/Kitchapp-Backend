@@ -13,7 +13,7 @@ VALUES
     ('00000000-0000-0000-0000-000000000108', 'Pescados',          'Pescados y mariscos frescos',       'INGREDIENT', true, '#4682B4'),
     ('00000000-0000-0000-0000-000000000109', 'Lácteos',           'Leche, yogur y derivados lácteos',  'INGREDIENT', true, '#FFFACD'),
     ('00000000-0000-0000-0000-000000000110', 'Panadería',         'Pan, bollería y masas',             'INGREDIENT', true, '#DEB887')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Employees (add 7 → total 10) ─────────────────────────────────────────────
 INSERT INTO employees (id, full_name, role, is_active)
@@ -25,7 +25,7 @@ VALUES
     ('00000000-0000-0000-0000-000000000508', 'Ana Torres',      'BARMAN', true),
     ('00000000-0000-0000-0000-000000000509', 'Diego Sánchez',   'COOK',   true),
     ('00000000-0000-0000-0000-000000000510', 'Elena Navarro',   'WAITER', true)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Auth users for new employees (same hash = same demo password as admin) ───
 INSERT INTO auth_users (id, employee_id, username, password_hash, is_active)
@@ -37,16 +37,16 @@ VALUES
     ('00000000-0000-0000-0000-000000001206', '00000000-0000-0000-0000-000000000508', 'atorres@kitchapp.local',    '$2a$10$g9P2aVQd75M95F9nldInUOgeW08wwrEzil.KndrCuwgCEUzRhyKl6', true),
     ('00000000-0000-0000-0000-000000001207', '00000000-0000-0000-0000-000000000509', 'dsanchez@kitchapp.local',   '$2a$10$g9P2aVQd75M95F9nldInUOgeW08wwrEzil.KndrCuwgCEUzRhyKl6', true),
     ('00000000-0000-0000-0000-000000001208', '00000000-0000-0000-0000-000000000510', 'enavarro@kitchapp.local',   '$2a$10$g9P2aVQd75M95F9nldInUOgeW08wwrEzil.KndrCuwgCEUzRhyKl6', true)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Restaurant tables (add 4 → total 10) ────────────────────────────────────
 INSERT INTO restaurant_tables (id, table_number, capacity, is_active, x, y, name, layer_id)
 VALUES
-    ('00000000-0000-0000-0000-000000000607', 7,  2, true, 320.0, 80.0,  'Mesa 7',  (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1)),
-    ('00000000-0000-0000-0000-000000000608', 8,  4, true, 420.0, 80.0,  'Mesa 8',  (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1)),
-    ('00000000-0000-0000-0000-000000000609', 9,  6, true, 320.0, 180.0, 'Mesa 9',  (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1)),
-    ('00000000-0000-0000-0000-000000000610', 10, 4, true, 420.0, 180.0, 'Mesa 10', (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1))
-ON CONFLICT (id) DO NOTHING;
+    ('00000000-0000-0000-0000-000000000607', 101, 2, true, 320.0, 80.0,  'Mesa 101', (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1)),
+    ('00000000-0000-0000-0000-000000000608', 102, 4, true, 420.0, 80.0,  'Mesa 102', (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1)),
+    ('00000000-0000-0000-0000-000000000609', 103, 6, true, 320.0, 180.0, 'Mesa 103', (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1)),
+    ('00000000-0000-0000-0000-000000000610', 104, 4, true, 420.0, 180.0, 'Mesa 104', (SELECT id FROM layers WHERE name = 'Terraza' LIMIT 1))
+ON CONFLICT DO NOTHING;
 
 -- ── Suppliers (add 4 → total 10) ─────────────────────────────────────────────
 INSERT INTO suppliers (id, nif, trade_name, business_name, re_equivalence, type, days, email, phone_1, iban)
@@ -55,7 +55,7 @@ VALUES
     ('00000000-0000-0000-0000-000000000708', 'B22334455', 'Carnicería Premium', 'Carnicería Premium SL', false, 'PERISHABLES', ARRAY['TUE','FRI']::delivery_days[],   'info@carniceria.local',  '+34 600 888 999', 'ES22000000000000000007'),
     ('00000000-0000-0000-0000-000000000709', 'B66778899', 'Panadería Artesana', 'Panadería Artesana SL', false, 'PERISHABLES', ARRAY['MON','WED','FRI']::delivery_days[], 'pan@artesana.local',  '+34 600 999 000', 'ES22000000000000000008'),
     ('00000000-0000-0000-0000-000000000710', 'B11998877', 'EquipoHostel',       'EquipoHostel SL',       false, 'APPLIANCES',  ARRAY['VAR']::delivery_days[],         'ventas@equipoh.local',  '+34 600 000 111', 'ES22000000000000000009')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Table occupations (12) ───────────────────────────────────────────────────
 INSERT INTO table_occupations (id, table_id, started_at, ended_at, status)
@@ -74,7 +74,7 @@ VALUES
     ('00000000-0000-0000-0001-000000000010', '00000000-0000-0000-0000-000000000603', '2026-06-18 13:10:00+02', NULL, 'OCCUPIED'),
     ('00000000-0000-0000-0001-000000000011', '00000000-0000-0000-0000-000000000605', '2026-06-18 13:20:00+02', NULL, 'OCCUPIED'),
     ('00000000-0000-0000-0001-000000000012', '00000000-0000-0000-0000-000000000609', '2026-06-18 13:30:00+02', NULL, 'OPEN')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Orders (12, diferentes estados) ─────────────────────────────────────────
 INSERT INTO orders (id, table_occupation_id, employee_id, status, tip, created_at, closed_at)
@@ -93,7 +93,7 @@ VALUES
     ('00000000-0000-0000-0002-000000000010', '00000000-0000-0000-0001-000000000010', '00000000-0000-0000-0000-000000000504', 'IN_PREPARATION', 0.00, '2026-06-18 13:12:00+02', NULL),
     ('00000000-0000-0000-0002-000000000011', '00000000-0000-0000-0001-000000000011', '00000000-0000-0000-0000-000000000507', 'DONE',           0.00, '2026-06-18 13:22:00+02', NULL),
     ('00000000-0000-0000-0002-000000000012', '00000000-0000-0000-0001-000000000012', '00000000-0000-0000-0000-000000000503', 'WAITING',        0.00, '2026-06-18 13:32:00+02', NULL)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Order dishes ──────────────────────────────────────────────────────────────
 INSERT INTO order_dish (id, order_id, dish_id, count, total, status)
@@ -112,7 +112,7 @@ VALUES
     ('00000000-0000-0000-0002-000000000112', '00000000-0000-0000-0002-000000000010', '00000000-0000-0000-0000-000000000909', 2, 23.00, 'IN_PREPARATION'),
     ('00000000-0000-0000-0002-000000000113', '00000000-0000-0000-0002-000000000011', '00000000-0000-0000-0000-000000000904', 1, 16.50, 'DONE'),
     ('00000000-0000-0000-0002-000000000114', '00000000-0000-0000-0002-000000000012', '00000000-0000-0000-0000-000000000911', 2, 13.00, 'WAITING')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Order consumable items ────────────────────────────────────────────────────
 INSERT INTO order_consumable_item (id, order_id, product_id, count, total, delivered)
@@ -123,7 +123,7 @@ VALUES
     ('00000000-0000-0000-0002-000000000204', '00000000-0000-0000-0002-000000000006', '00000000-0000-0000-0000-000000000828', 2, 16.00, true),
     ('00000000-0000-0000-0002-000000000205', '00000000-0000-0000-0002-000000000009', '00000000-0000-0000-0000-000000000829', 1,  2.50, false),
     ('00000000-0000-0000-0002-000000000206', '00000000-0000-0000-0002-000000000010', '00000000-0000-0000-0000-000000000830', 2,  6.00, false)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Payments (órdenes PAID) ───────────────────────────────────────────────────
 INSERT INTO payments (id, order_id, method, amount, transaction_id)
@@ -135,7 +135,7 @@ VALUES
     ('00000000-0000-0000-0003-000000000005', '00000000-0000-0000-0002-000000000005', 'CASH',        17.70, NULL),
     ('00000000-0000-0000-0003-000000000006', '00000000-0000-0000-0002-000000000006', 'CREDIT_CARD', 60.20, 'TXN-20260617-001'),
     ('00000000-0000-0000-0003-000000000007', '00000000-0000-0000-0002-000000000007', 'CASH',        18.60, NULL)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Reservations (12) ────────────────────────────────────────────────────────
 INSERT INTO reservations (id, customer_name, customer_phone, num_guests, reservation_date, restaurant_tables_id, status, notes)
@@ -152,7 +152,7 @@ VALUES
     ('00000000-0000-0000-0004-000000000010', 'Patricia León',   '+34 611 111 010', 3, '2026-06-17 14:00:00+02', '00000000-0000-0000-0000-000000000603', 'ARRIVED',   NULL),
     ('00000000-0000-0000-0004-000000000011', 'Roberto Peña',    '+34 611 111 011', 2, '2026-06-15 21:00:00+02', '00000000-0000-0000-0000-000000000601', 'CANCELLED', 'Canceló por enfermedad'),
     ('00000000-0000-0000-0004-000000000012', 'Silvia Ramos',    '+34 611 111 012', 4, '2026-06-16 14:30:00+02', '00000000-0000-0000-0000-000000000604', 'ARRIVED',   NULL)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Purchase orders (10) ─────────────────────────────────────────────────────
 INSERT INTO purchase_orders (id, supplier_id, order_number, status, created_at, due_date, updated_at, net_amount, tax_amount, total, notes)
@@ -167,7 +167,7 @@ VALUES
     ('00000000-0000-0000-0005-000000000008', '00000000-0000-0000-0000-000000000708', 'PO-2026-008', 'SENT',     '2026-06-15 09:00:00+02', '2026-06-19', NULL,                      200.00, 42.00,  242.00, 'Carne para semana'),
     ('00000000-0000-0000-0005-000000000009', '00000000-0000-0000-0000-000000000709', 'PO-2026-009', 'DRAFT',    '2026-06-17 09:00:00+02', '2026-06-20', NULL,                       30.00,  6.30,   36.30, NULL),
     ('00000000-0000-0000-0005-000000000010', '00000000-0000-0000-0000-000000000701', 'PO-2026-010', 'DRAFT',    '2026-06-18 09:00:00+02', '2026-06-22', NULL,                       75.00, 15.75,   90.75, 'Reposición frutas')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Purchase order lines ──────────────────────────────────────────────────────
 INSERT INTO purchase_order_line (id, order_id, product_id, description, quantity, unit_price, tax_id)
@@ -187,7 +187,7 @@ VALUES
     ('00000000-0000-0000-0006-000000000013', '00000000-0000-0000-0005-000000000009', '00000000-0000-0000-0000-000000000804', 'Pan de hamburguesa',   30.000, 0.3500, '00000000-0000-0000-0000-000000000302'),
     ('00000000-0000-0000-0006-000000000014', '00000000-0000-0000-0005-000000000010', '00000000-0000-0000-0000-000000000801', 'Tomate natural',       25.000, 1.2000, '00000000-0000-0000-0000-000000000302'),
     ('00000000-0000-0000-0006-000000000015', '00000000-0000-0000-0005-000000000010', '00000000-0000-0000-0000-000000000825', 'Fresas frescas',        6.000, 4.0000, '00000000-0000-0000-0000-000000000302')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Cash drawers (10) ────────────────────────────────────────────────────────
 INSERT INTO cash_drawers (id, opened_at, closed_at, opening_balance, closing_balance, expected_balance, employee_id)
@@ -202,7 +202,7 @@ VALUES
     ('00000000-0000-0000-0007-000000000008', '2026-06-17 08:00:00+02', '2026-06-17 23:45:00+02', 100.00, 476.20, 476.20, '00000000-0000-0000-0000-000000000501'),
     ('00000000-0000-0000-0007-000000000009', '2026-06-18 08:00:00+02', NULL,                      100.00, 100.00, 100.00, '00000000-0000-0000-0000-000000000501'),
     ('00000000-0000-0000-0007-000000000010', '2026-06-09 08:00:00+02', '2026-06-09 23:00:00+02', 150.00, 390.00, 395.00, '00000000-0000-0000-0000-000000000501')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Inventory movements (12) ─────────────────────────────────────────────────
 INSERT INTO inventory_movements (id, product_id, employee_id, quantity, type, reason, created_at)
@@ -219,7 +219,7 @@ VALUES
     ('00000000-0000-0000-0008-000000000010', '00000000-0000-0000-0000-000000000824', '00000000-0000-0000-0000-000000000502',  -0.500, 'ADJUSTMENT',  'Corrección inventario físico', '2026-06-16 16:00:00+02'),
     ('00000000-0000-0000-0008-000000000011', '00000000-0000-0000-0000-000000000826', '00000000-0000-0000-0000-000000000509',  24.000, 'PURCHASE',    'Reposición huevos',            '2026-06-17 08:00:00+02'),
     ('00000000-0000-0000-0008-000000000012', '00000000-0000-0000-0000-000000000807', '00000000-0000-0000-0000-000000000502',  -0.500, 'WASTE',       'Langostinos fuera de fecha',   '2026-06-17 18:00:00+02')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
 
 -- ── Work logs (15) ───────────────────────────────────────────────────────────
 INSERT INTO work_logs (id, employee_id, type, timestamp, notes, created_at)
@@ -239,4 +239,4 @@ VALUES
     ('00000000-0000-0000-0009-000000000013', '00000000-0000-0000-0000-000000000504', 'CLOCK_OUT',   '2026-06-17 23:30:00+02', NULL, '2026-06-17 23:30:00+02'),
     ('00000000-0000-0000-0009-000000000014', '00000000-0000-0000-0000-000000000509', 'CLOCK_IN',    '2026-06-17 08:00:00+02', NULL, '2026-06-17 08:00:00+02'),
     ('00000000-0000-0000-0009-000000000015', '00000000-0000-0000-0000-000000000509', 'CLOCK_OUT',   '2026-06-17 16:30:00+02', NULL, '2026-06-17 16:30:00+02')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT DO NOTHING;
