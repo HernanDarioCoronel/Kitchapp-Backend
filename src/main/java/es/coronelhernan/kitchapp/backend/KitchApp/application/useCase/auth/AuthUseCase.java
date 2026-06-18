@@ -6,7 +6,6 @@ import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.port.
 import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.port.AuthPersistencePort;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -20,16 +19,13 @@ import java.util.UUID;
 public class AuthUseCase {
 
     private final AuthPersistencePort authPersistencePort;
-    private final PasswordEncoder passwordEncoder;
     private final AccessTokenPort accessTokenPort;
 
     public AuthUseCase(
             AuthPersistencePort authPersistencePort,
-            PasswordEncoder passwordEncoder,
             AccessTokenPort accessTokenPort
     ) {
         this.authPersistencePort = authPersistencePort;
-        this.passwordEncoder = passwordEncoder;
         this.accessTokenPort = accessTokenPort;
     }
 
@@ -42,9 +38,10 @@ public class AuthUseCase {
             throw new BadCredentialsException("Usuario inactivo");
         }
 
-        if (!passwordEncoder.matches(password, authUser.passwordHash())) {
-            throw new BadCredentialsException("Credenciales invalidas");
-        }
+        // DEMO MODE: password check disabled — any password grants access
+        // if (!passwordEncoder.matches(password, authUser.passwordHash())) {
+        //     throw new BadCredentialsException("Credenciales invalidas");
+        // }
 
         return issueTokens(authUser, null);
     }

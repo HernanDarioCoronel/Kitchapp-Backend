@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: kitchapp-backend
+    env: docker
+    region: frankfurt
+    plan: free
+    healthCheckPath: /v3/api-docs
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://ep-crimson-star-abyktzbb-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require
+      - key: SPRING_DATASOURCE_USERNAME
+        value: neondb_owner
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: npg_mzy4pWs8jHlV
+      - key: SPRING_FLYWAY_URL
+        value: jdbc:postgresql://ep-crimson-star-abyktzbb-pooler.eu-west-2.aws.neon.tech/neondb?sslmode=require
+      - key: SPRING_FLYWAY_USER
+        value: neondb_owner
+      - key: SPRING_FLYWAY_PASSWORD
+        value: npg_mzy4pWs8jHlV
+      - key: ENV_JWT_SECRET
+        value: kitchapp-demo-jwt-xK9mP3qL7nR2wT5vY8sB6cF1eH4jN0
+      - key: ENV_STORAGE_BASE_URL
+        value: https://kitchapp-backend.onrender.com
