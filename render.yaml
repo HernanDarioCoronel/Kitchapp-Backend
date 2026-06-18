@@ -18,6 +18,12 @@ services:
         value: neondb_owner
       - key: SPRING_FLYWAY_PASSWORD
         value: npg_mzy4pWs8jHlV
+      - key: ENV_DATABASE_NAME
+        value: neondb
+      - key: ENV_POSTGRES_USER
+        value: neondb_owner
+      - key: ENV_POSTGRES_PASSW
+        value: npg_mzy4pWs8jHlV
       - key: ENV_JWT_SECRET
         value: kitchapp-demo-jwt-xK9mP3qL7nR2wT5vY8sB6cF1eH4jN0
       - key: ENV_STORAGE_BASE_URL
