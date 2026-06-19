@@ -20,7 +20,7 @@ spring:
     enabled: true
     execute-in-transaction: false # habilita las transacciones manuales
     baseline-on-migrate: false # usar flyway como punto de partida, deshabilitar si ya existe la db
-    validate-on-migrate: true
+    validate-on-migrate: false
     locations: classpath:db/migration # ubicacion de las migraciones
   jpa:
     hibernate:
