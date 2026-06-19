@@ -45,7 +45,7 @@ public class SupplierEntity {
 
     @ColumnDefault("'{VAR}'")
     @Enumerated(EnumType.STRING)
-    @Column(name = "days", columnDefinition = "delivery_days[]")
+    @Column(name = "days", columnDefinition = "text[]")
     @JdbcTypeCode(SqlTypes.ARRAY)
     private DeliveryDays[] days;
 

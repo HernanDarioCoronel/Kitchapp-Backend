@@ -37,6 +37,8 @@ spring:
           time_zone: UTC
 
 app:
+  demo:
+    bypass-password: true
   security:
     jwt:
       secret: ${ENV_JWT_SECRET:change-this-secret-in-env-change-this-secret-in-env-123456}

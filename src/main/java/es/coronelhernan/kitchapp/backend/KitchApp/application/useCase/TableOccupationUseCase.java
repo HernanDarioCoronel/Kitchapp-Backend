@@ -1,11 +1,13 @@
 package es.coronelhernan.kitchapp.backend.KitchApp.application.useCase;
 
+import es.coronelhernan.kitchapp.backend.KitchApp.domain.enums.OccupationStatus;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.models.TableOccupation;
 import es.coronelhernan.kitchapp.backend.KitchApp.domain.repositories.TableOccupationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,7 +20,12 @@ public class TableOccupationUseCase {
 
     @Transactional
     public TableOccupation save(TableOccupation occupation) {
-        return this.repository.save(occupation.toBuilder().id(null).build());
+        var toSave = occupation.toBuilder()
+                .id(null)
+                .startedAt(occupation.getStartedAt() != null ? occupation.getStartedAt() : OffsetDateTime.now())
+                .status(occupation.getStatus() != null ? occupation.getStatus() : OccupationStatus.OPEN)
+                .build();
+        return this.repository.save(toSave);
     }
 
     @Transactional

@@ -30,6 +30,8 @@ spring:
           time_zone: UTC
 
 app:
+  demo:
+    bypass-password: false
   security:
     jwt:
       secret: test-integration-secret-key-long-enough-for-hmac-sha256-algorithm-kitchapp

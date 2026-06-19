@@ -5,7 +5,9 @@ import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.model
 import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.port.AccessTokenPort;
 import es.coronelhernan.kitchapp.backend.KitchApp.application.useCase.auth.port.AuthPersistencePort;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -20,13 +22,19 @@ public class AuthUseCase {
 
     private final AuthPersistencePort authPersistencePort;
     private final AccessTokenPort accessTokenPort;
+    private final PasswordEncoder passwordEncoder;
+
+    @Value("${app.demo.bypass-password:false}")
+    private boolean bypassPassword;
 
     public AuthUseCase(
             AuthPersistencePort authPersistencePort,
-            AccessTokenPort accessTokenPort
+            AccessTokenPort accessTokenPort,
+            PasswordEncoder passwordEncoder
     ) {
         this.authPersistencePort = authPersistencePort;
         this.accessTokenPort = accessTokenPort;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -38,10 +46,9 @@ public class AuthUseCase {
             throw new BadCredentialsException("Usuario inactivo");
         }
 
-        // DEMO MODE: password check disabled — any password grants access
-        // if (!passwordEncoder.matches(password, authUser.passwordHash())) {
-        //     throw new BadCredentialsException("Credenciales invalidas");
-        // }
+        if (!bypassPassword && !passwordEncoder.matches(password, authUser.passwordHash())) {
+            throw new BadCredentialsException("Credenciales invalidas");
+        }
 
         return issueTokens(authUser, null);
     }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import es.coronelhernan.kitchapp.backend.KitchApp.application.utils.PatchUtils;
@@ -57,7 +58,7 @@ public class DishUseCase {
     @Transactional
     public Dish update(UUID id, Dish patch) {
         var dish = this.repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Plato no encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("Plato no encontrado"));
         PatchUtils.copyNonNullProperties(patch, dish, "id", "createdAt");
         return this.repository.save(dish);
     }

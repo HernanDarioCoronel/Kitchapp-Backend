@@ -7,6 +7,7 @@ import es.coronelhernan.kitchapp.backend.KitchApp.infrastructure.security.JwtSer
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -14,13 +15,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.UUID;
 
 @SpringBootTest
-@Testcontainers
 @ActiveProfiles("test")
 public abstract class BaseIntegrationTest {
 
@@ -51,12 +49,10 @@ public abstract class BaseIntegrationTest {
 
     protected static final UUID SEED_STOCK_TOMATE_ID = UUID.fromString("00000000-0000-0000-0000-000000001101");
 
-    // Container declared static so @Testcontainers manages its lifecycle (start/stop).
-    // We also call start() explicitly in the static block below because in
-    // JUnit Jupiter 6 + Spring Boot 4, SpringExtension.beforeAll() (which initialises
-    // the Spring context and evaluates @DynamicPropertySource lambdas) runs BEFORE
-    // TestcontainersExtension.beforeAll() (which would normally start the container).
-    @Container
+    // Shared container for the entire test suite. No @Testcontainers/@Container so that
+    // the extension never stops/restarts it between test classes. A new port after restart
+    // would invalidate the cached Spring ApplicationContext (HikariPool keeps the old URL).
+    // Ryuk cleans up the container automatically when the JVM exits.
     @SuppressWarnings("resource")
     static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine")
             .withDatabaseName("kitchapp_test")
@@ -76,7 +72,7 @@ public abstract class BaseIntegrationTest {
     @DynamicPropertySource
     static void configureDataSource(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url",
-                () -> postgres.getJdbcUrl() + "?stringtype=unspecified");
+                () -> postgres.getJdbcUrl() + "&stringtype=unspecified");
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
         registry.add("ENV_DATABASE_NAME", () -> "kitchapp_test");
@@ -99,7 +95,9 @@ public abstract class BaseIntegrationTest {
 
     @BeforeEach
     void setupMockMvc() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(SecurityMockMvcConfigurers.springSecurity())
+                .build();
     }
 
     @Autowired
